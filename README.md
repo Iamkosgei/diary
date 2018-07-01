@@ -1,4 +1,4 @@
 # diary
 This is a simple diary app for the andela`s Android Developer #7DaysofCodeChallenge.
 
-![Screenshot](diary/1 (1).JPG)
+![Alt text](diary/1 (4).JPG?raw=true "Title")
