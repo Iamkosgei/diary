@@ -1,11 +1,14 @@
 package xyz.kosgei.diary;
 
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +17,8 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseRecyclerAdapter adapter;
     FirebaseUser currentUser;
 
+    SwipeController swipeController = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Diary");
+
+        setupRecyclerView();
 
 
         if (currentUser != null)
@@ -64,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         mEntriesRecyclerView.setLayoutManager(linearLayoutManager);
         mEntriesRecyclerView.hasFixedSize();
+
+
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null)
         {
@@ -145,12 +156,56 @@ public class MainActivity extends AppCompatActivity {
         }
         if (itemSelected == R.id.entry)
         {
-            finish();
+            //finish();
             startActivity(new Intent(MainActivity.this,NewEntryActivity.class));
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setupRecyclerView() {
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.entries_recycler_view);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(adapter);
+
+        swipeController = new SwipeController(new SwipeControllerActions() {
+            @Override
+            public void onRightClicked(int position) {
+                /*adapter.players.remove(position);
+                mAdapter.notifyItemRemoved(position);
+                mAdapter.notifyItemRangeChanged(position, mAdapter.getItemCount());*/
+
+
+                DatabaseReference databaseReference1 = firebaseDatabase.getReference("Diary").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(adapter.getRef(position).getKey());
+
+
+                databaseReference1.setValue(null).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful())
+                        {
+                            Toast.makeText(MainActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
+
+
+            }
+        });
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+        itemTouchhelper.attachToRecyclerView(recyclerView);
+
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                swipeController.onDraw(c);
+            }
+        });
     }
 
 

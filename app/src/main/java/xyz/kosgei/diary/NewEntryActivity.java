@@ -54,12 +54,11 @@ public class NewEntryActivity extends AppCompatActivity {
         edTitle = findViewById(R.id.editText2);
         edBody = findViewById(R.id.editText3);
 
-        valid();
-
     }
 
     public void onSave(View view)
     {
+        valid();
         if (valid())
         {
             save();
