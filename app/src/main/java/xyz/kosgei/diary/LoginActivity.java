@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
 
 
-        if (currentUser == null)
+        if (currentUser != null)
         {
 
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
