@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Diary");
 
+        //offline persistence
+       // FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
 
         ///setting the layout manager
         mEntriesRecyclerView = findViewById(R.id.entries_recycler_view);
@@ -126,13 +129,14 @@ public class MainActivity extends AppCompatActivity {
         int itemSelected = item.getItemId();
         if (itemSelected == R.id.logout) {
             FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
         if (itemSelected == R.id.entry)
         {
-            startActivity(new Intent(MainActivity.this,NewEntryActivity.class));
             finish();
+            startActivity(new Intent(MainActivity.this,NewEntryActivity.class));
+
         }
 
         return super.onOptionsItemSelected(item);

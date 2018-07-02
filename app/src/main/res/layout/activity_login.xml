@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/login_activity"
+    android:background="@drawable/bg"
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
@@ -15,7 +16,7 @@
         android:layout_marginTop="168dp"
         android:fontFamily="casual"
         android:text="@string/title"
-        android:textColor="@color/textColorPrimary"
+        android:textColor="@android:color/white"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/sign_in_button"
         app:layout_constraintEnd_toEndOf="parent"

@@ -42,6 +42,10 @@ public class NewEntryActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Diary");
 
+        //offline persistence
+       // FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         currentDate = sdf.format(new Date());
 
