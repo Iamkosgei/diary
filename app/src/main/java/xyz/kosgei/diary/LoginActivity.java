@@ -67,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
+                Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show();
                 Log.w("This", "Google sign in failed", e);
                 // ...
             }
@@ -81,7 +82,9 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+
                             FirebaseUser user = mAuth.getCurrentUser();
+
                             startActivity(new Intent(LoginActivity.this,MainActivity.class));
                             finish();
 

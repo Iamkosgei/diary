@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Diary");
 
+        getSupportActionBar().setTitle(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
         //offline persistence
        // FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
