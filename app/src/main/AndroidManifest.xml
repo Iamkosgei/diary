@@ -18,7 +18,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme1"></activity>
+            android:theme="@style/AppTheme1"/>
         <activity android:name=".ContentActivity" />
         <activity android:name=".NewEntryActivity"></activity>
     </application>

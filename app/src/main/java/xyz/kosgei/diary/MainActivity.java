@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mEntriesRecyclerView;
     FirebaseRecyclerAdapter adapter;
-
+    FirebaseUser currentUser;
 
 
     @Override
@@ -42,10 +42,19 @@ public class MainActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
+        currentUser = auth.getCurrentUser();
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Diary");
 
-        getSupportActionBar().setTitle(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+
+        if (currentUser != null)
+        {
+            getSupportActionBar().setTitle(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        }
+
+
+
         //offline persistence
        // FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
@@ -130,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         int itemSelected = item.getItemId();
         if (itemSelected == R.id.logout) {
             FirebaseAuth.getInstance().signOut();
+
             finish();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
